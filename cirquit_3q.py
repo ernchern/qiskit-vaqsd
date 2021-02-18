@@ -34,6 +34,8 @@ def build_circuit(params, a_1, b_1, a_2, b_2, a_3, b_3, bias, shots = 1000, verb
     setQubit(circuit2, a_2, b_2)
     setQubit(circuit3, a_3, b_3)
     
+    params = params.reshape((2,3))
+	
     #"Neural layers"
     addLayer(circuit1, params[0][:],0)
     addLayer(circuit1, params[1][:],1)
@@ -49,20 +51,20 @@ def build_circuit(params, a_1, b_1, a_2, b_2, a_3, b_3, bias, shots = 1000, verb
     circuit2.cx(0,1)
     circuit3.cx(0,1)
     
-    #"Neural layers"
-    addLayer(circuit1, params[2][:],0)
-    addLayer(circuit1, params[3][:],1)
+    # #"Neural layers"
+    # addLayer(circuit1, params[2][:],0)
+    # addLayer(circuit1, params[3][:],1)
     
-    addLayer(circuit2, params[2][:],0)
-    addLayer(circuit2, params[3][:],1)
+    # addLayer(circuit2, params[2][:],0)
+    # addLayer(circuit2, params[3][:],1)
     
-    addLayer(circuit3, params[2][:],0)
-    addLayer(circuit3, params[3][:],1)
+    # addLayer(circuit3, params[2][:],0)
+    # addLayer(circuit3, params[3][:],1)
     
-    #     #CNOT gate
-    circuit1.cx(1,0)
-    circuit2.cx(1,0)
-    circuit3.cx(1,0)
+    # #     #CNOT gate
+    # circuit1.cx(1,0)
+    # circuit2.cx(1,0)
+    # circuit3.cx(1,0)
 
 #   Measure    
     circuit1.measure([0,1], [0,1])
@@ -102,7 +104,11 @@ def build_circuit(params, a_1, b_1, a_2, b_2, a_3, b_3, bias, shots = 1000, verb
             counts3[i] = 0
             
             
+    p_success = (counts1['00']+counts2['01']+counts3['10'])/3
+    p_inconclusive = (counts1['11']+counts2['11']+counts3['11'])/3
             
-    obj_value = (counts1['00']+counts2['01']+counts3['10'])/3/((counts1['11']+counts2['11']+counts3['11'])/3 + bias*shots)
+    #obj_value = p_success / (p_inconclusive + bias*shots)
+    obj_value = 1.5 * p_success - p_inconclusive
+	
 
-    return obj_value
+    return (obj_value)/shots
