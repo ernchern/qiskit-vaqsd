@@ -7,7 +7,7 @@ from qiskit import(
   Aer)
 
 
-def build_circuit(params,measure_index,shots=1000):
+def build_circuit(params,shots=1000):
     '''
     Inputs:
         measure_index: index of a qubit to measure
@@ -39,7 +39,7 @@ def build_circuit(params,measure_index,shots=1000):
     # Create a Quantum Circuit acting on the q register
     circuit2 = QuantumCircuit(1, 1)
 
-    circuit2.h(measure_index)
+    circuit2.h(0)
     
     circuit2.u3(params[0],params[1],params[2],0)
     

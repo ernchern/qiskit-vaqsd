@@ -12,7 +12,7 @@ def optimize_circuit(iteration_limit, initial_step_size, shot_size, minimum_step
 	# initial input
 	parameters = np.random.rand(3) * 2 * np.pi
 	# evaluate with initial input
-	reference_result = evaluate(parameters, shot_size)[1]
+	reference_result = evaluate(parameters, shot_size)
 	
 	step_size = initial_step_size
 	
@@ -24,7 +24,7 @@ def optimize_circuit(iteration_limit, initial_step_size, shot_size, minimum_step
 		# evaluate and compare
 		result = []
 		for step in variations:
-			result.append(evaluate(step, shot_size)[1])
+			result.append(evaluate(step, shot_size))
 		
 		# change current state to the optimal step and retry
 		# if it's local optima, try smaller step
