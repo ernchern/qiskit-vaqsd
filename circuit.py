@@ -83,4 +83,4 @@ def build_circuit(params, a_1, b_1, a_2, b_2, shots = 1000, verbose = False):
             
     out_prob = (counts1['0']+counts2['1'])/(2*shots)
 
-    return out_prob
+    return (out_prob, 0)

@@ -20,7 +20,8 @@ def build_circuit(params, a_1, b_1, a_2, b_2, a_3, b_3, bias, shots = 1000, verb
         shots: number of executions of the circuit
         a_n and b_n : nth qubit's parameters 
     Output:
-        obj_value: optimization value
+        p_success: Success rate
+		p_inconclusive: Probability of getting the leftover output
     '''
     # Use Aer's qasm_simulator
     simulator = Aer.get_backend('qasm_simulator')
@@ -104,11 +105,11 @@ def build_circuit(params, a_1, b_1, a_2, b_2, a_3, b_3, bias, shots = 1000, verb
             counts3[i] = 0
             
             
-    p_success = (counts1['00']+counts2['01']+counts3['10'])/3
-    p_inconclusive = (counts1['11']+counts2['11']+counts3['11'])/3
+    p_success = (counts1['00']+counts2['01']+counts3['10'])/(3*shots)
+    p_inconclusive = (counts1['11']+counts2['11']+counts3['11'])/(3*shots)
             
     #obj_value = p_success / (p_inconclusive + bias*shots)
-    obj_value = 1.5 * p_success - p_inconclusive
+    #obj_value = 1.5 * p_success - p_inconclusive
 	
 
-    return (obj_value)/shots
+    return (p_success, p_inconclusive)
