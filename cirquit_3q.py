@@ -35,7 +35,7 @@ def build_circuit(params, a_1, b_1, a_2, b_2, a_3, b_3, bias, shots = 1000, verb
     setQubit(circuit2, a_2, b_2)
     setQubit(circuit3, a_3, b_3)
     
-    params = params.reshape((2,3))
+    params = params.reshape((4,3))
 	
     #"Neural layers"
     addLayer(circuit1, params[0][:],0)
@@ -47,27 +47,27 @@ def build_circuit(params, a_1, b_1, a_2, b_2, a_3, b_3, bias, shots = 1000, verb
     addLayer(circuit3, params[0][:],0)
     addLayer(circuit3, params[1][:],1)
     
-#     #CNOT gate
+    # CNOT gate
     circuit1.cx(0,1)
     circuit2.cx(0,1)
     circuit3.cx(0,1)
     
-    # #"Neural layers"
-    # addLayer(circuit1, params[2][:],0)
-    # addLayer(circuit1, params[3][:],1)
+    #"Neural layers"
+    addLayer(circuit1, params[2][:],0)
+    addLayer(circuit1, params[3][:],1)
     
-    # addLayer(circuit2, params[2][:],0)
-    # addLayer(circuit2, params[3][:],1)
+    addLayer(circuit2, params[2][:],0)
+    addLayer(circuit2, params[3][:],1)
     
-    # addLayer(circuit3, params[2][:],0)
-    # addLayer(circuit3, params[3][:],1)
+    addLayer(circuit3, params[2][:],0)
+    addLayer(circuit3, params[3][:],1)
     
-    # #     #CNOT gate
-    # circuit1.cx(1,0)
-    # circuit2.cx(1,0)
-    # circuit3.cx(1,0)
+    #CNOT gate
+    circuit1.cx(1,0)
+    circuit2.cx(1,0)
+    circuit3.cx(1,0)
 
-#   Measure    
+    # Measure    
     circuit1.measure([0,1], [0,1])
     circuit2.measure([0,1], [0,1])
     circuit3.measure([0,1], [0,1])
