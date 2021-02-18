@@ -1,12 +1,15 @@
 
 import circuit
 import numpy as np
+import cmath
 
 # counts_distribution =  circuit.evaluate(parameter, shot_size)
 
 #evaluate = lambda params, shot_size: (circuit.build_circuit(params,0,shot_size/2)[1]+circuit.build_circuit(params,1,shot_size/2)[0])/2
 
-evaluate = lambda param, shot_size :circuit.build_circuit(param, np.sqrt(1/3),np.sqrt(2/3),shot_size) 
+# evaluate = lambda param, shot_size :circuit.build_circuit(param,np.sqrt(1/3),np.sqrt(2/3),np.sqrt(2/3),np.sqrt(1/3),shot_size) 
+
+evaluate = lambda param, shot_size :circuit.build_circuit(param,np.sqrt(1/2),complex(0,np.sqrt(1/2)),np.sqrt(1/2),np.sqrt(1/2),shot_size) 
 
 def optimize_circuit(iteration_limit, initial_step_size, shot_size, minimum_step,verbose = True):
 	

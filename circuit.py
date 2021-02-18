@@ -23,8 +23,11 @@ def build_circuit(params, a_1, b_1, a_2, b_2, shots = 1000, verbose = False):
     simulator = Aer.get_backend('qasm_simulator')
     # Create a Quantum Circuit acting on the q register
     circuit1 = QuantumCircuit(1, 1)
-
-    circuit1.u3(2*np.arccos(a_1),np.arccos(np.real(b_1)/abs(b_1)),0,0)
+    
+    if b_1!=0:
+        circuit1.u3(2*np.arccos(a_1),np.arccos(np.real(b_1)/abs(b_1)),0,0)
+    else:
+        circuit1.u3(2*np.arccos(a_1),0,0,0)
 	
     circuit1.u3(params[0],params[1],params[2],0)
     
@@ -45,7 +48,12 @@ def build_circuit(params, a_1, b_1, a_2, b_2, shots = 1000, verbose = False):
 
     #circuit2.h(0)
 	
-    circuit2.u3(2*np.arccos(a_2),0,0,0)
+    if b_2!=0:
+        circuit2.u3(2*np.arccos(a_2),np.arccos(np.real(b_2)/abs(b_2)),0,0)
+    else:
+        circuit2.u3(2*np.arccos(a_2),0,0,0)
+
+
     
     circuit2.u3(params[0],params[1],params[2],0)
     
