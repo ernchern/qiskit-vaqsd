@@ -20,32 +20,51 @@ def build_circuit(params,measure_index,shots=1000):
     simulator = Aer.get_backend('qasm_simulator')
 
     # Create a Quantum Circuit acting on the q register
-    circuit = QuantumCircuit(2, 1)
+    circuit1 = QuantumCircuit(1, 1)
 
-    # Add a H gate on qubit 0
-    circuit.h(measure_index)
-
-    circuit.u3(params[0],params[1],params[2],0)
-    circuit.u3(params[0],params[1],params[2],1)
-
-    # Map the quantum measurement to the classical bit
-    circuit.measure([0], [0])
-
-
+    circuit1.u3(params[0],params[1],params[2],0)
+    
+    circuit1.measure([0], [0])
+    
     # Execute the circuit on the qasm simulator
-    job = execute(circuit, simulator, shots=1000)
+    job1 = execute(circuit1, simulator, shots=1000)
 
     # Grab results from the job
-    result = job.result()
+    result1 = job1.result()
 
     # Returns counts
-    counts = result.get_counts(circuit)
-	
-    for i in ['00', '01', '10', '11']:
-        if not i in counts:
-            counts[i] = 0
+    counts1 = result1.get_counts(circuit1)
     
-    out_counts = np.array([counts['0'],counts['1']])/shots
+    
+    # Create a Quantum Circuit acting on the q register
+    circuit2 = QuantumCircuit(1, 1)
 
-    return out_counts
+    circuit2.h(measure_index)
+    
+    circuit2.u3(params[0],params[1],params[2],0)
+    
+    circuit2.measure([0], [0])
+    
+    # Execute the circuit on the qasm simulator
+    job2 = execute(circuit2, simulator, shots=1000)
+
+    # Grab results from the job
+    result2 = job2.result()
+
+    # Returns counts
+    counts2 = result2.get_counts(circuit2)
+    
+
+    for i in ['0', '1']:
+        if not i in counts1:
+            counts1[i] = 0
+            
+    for i in ['0', '1']:
+        if not i in counts2:
+            counts2[i] = 0
+            
+            
+    out_prob = (counts1['0']+counts2['1'])/(2*shots)
+
+    return out_prob
 
