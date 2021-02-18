@@ -40,6 +40,10 @@ def build_circuit(params,measure_index,shots=1000):
 
     # Returns counts
     counts = result.get_counts(circuit)
+	
+    for i in ['00', '01', '10', '11']:
+        if not i in counts:
+            counts[i] = 0
     
     out_counts = np.array([counts['0'],counts['1']])/shots
 
