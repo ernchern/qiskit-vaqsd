@@ -36,11 +36,8 @@ def optimize_circuit(quantum_pairs, iteration_limit, initial_step_size, shot_siz
 		result = np.array(result)
 		iteration += 1
 		
-		# Adjust step size for better approximation
-		
 		# If new search has better result
 		if result.max() > reference_result:
-			step_size = (reference_result - result.max())/step_size
 			reference_result = result.max()
 			parameters = variations[result.argmax()]
 			if verbose:
@@ -48,8 +45,16 @@ def optimize_circuit(quantum_pairs, iteration_limit, initial_step_size, shot_siz
 				print(fit(parameters, shot_size))
 				print("inconclusive")
 				print(evaluate(parameters,shot_size)[1])
+		# Adjust step size for better approximation
+		else:
+			step_size = (result.max() - reference_result)/step_size
+		
+		if iteration>20:
+			print(step_size, evaluate(parameters,shot_size)[0])
+			print()
+		
 		# check termination criteria
-		if iteration_limit < iteration or step_size < minimum_step or result.max() == 1:
+		if iteration_limit < iteration or abs(step_size) < minimum_step or result.max() == 1:
 			#termination condition
 			search = False
 		print(iteration, "/", iteration_limit, end = "\r")

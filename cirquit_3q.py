@@ -3,6 +3,9 @@ from qiskit import(
   QuantumCircuit,
   execute,
   Aer)
+from qiskit import IBMQ
+IBMQ.save_account("e69e6c2e07ed86d44bf6ba9dc2db3c727e01eceeaea1d4d5508a8331a192d414336aeec995677836051acafd09a886485064a85f4931d2fbeee945d6ea16801b")
+IBMQ.load_account()
 
 def setQubit(circuit, a, b):
     if b!=0 :

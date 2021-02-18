@@ -22,8 +22,8 @@ print("2q")
 	
 print("3q")
 p_succs = []
-for i in range(10):
-	temp = optimize_circuit((qp_1, qp_2, qp_3), 1000, 0.001, 7000, 0.0000001, 12, False) 
+for i in range(50):
+	temp = optimize_circuit((qp_1, qp_2, qp_3), 50, 0.5, 7000, 0.03, 12, False) 
 	print(temp)
 	p_succs.append(temp[1])
 print("average is: ", np.array(p_succs).mean())
