@@ -11,11 +11,11 @@ import cmath
 
 evaluate = lambda param, shot_size :circuit.build_circuit(param,np.sqrt(1/2),complex(0,np.sqrt(1/2)),np.sqrt(1/2),np.sqrt(1/2),shot_size) 
 
-def optimize_circuit(iteration_limit, initial_step_size, shot_size, minimum_step,verbose = True):
+def optimize_circuit(iteration_limit, initial_step_size, shot_size, minimum_step, dim = 3, verbose = True):
 	
 	iteration = 0
 	# initial input
-	parameters = np.random.rand(3) * 2 * np.pi
+	parameters = np.random.rand(dim) * 2 * np.pi
 	
 	# evaluate with initial input
 	reference_result = evaluate(parameters, shot_size)
@@ -24,7 +24,7 @@ def optimize_circuit(iteration_limit, initial_step_size, shot_size, minimum_step
 	search = True
 	while(search):
 		# Take steps
-		variations = create_variations(parameters, step_size)
+		variations = create_variations(parameters, step_size, dim)
 		
 		# Evaluate all the variations
 		result = []
@@ -51,16 +51,15 @@ def optimize_circuit(iteration_limit, initial_step_size, shot_size, minimum_step
 	return parameters, reference_result
 		
 		
-def create_variations(parameters, step_size):
-	nar = np.array
-	return [nar([parameters[0] + step_size, parameters[1], parameters[2]]),
-		nar([parameters[0] - step_size, parameters[1], parameters[2]]),
-		nar([parameters[0], parameters[1] + step_size, parameters[2]]),
-		nar([parameters[0], parameters[1] - step_size, parameters[2]]),
-		nar([parameters[0], parameters[1], parameters[2] + step_size]),
-		nar([parameters[0], parameters[1], parameters[2] - step_size])]
+def create_variations(parameters, step_size, dim = 3):
+	result = []
+	for i in range(dim):
+		displacement = np.zeros(dim) 
+		displacement[i] = step_size
+		result += [parameters + displacement, parameters - displacement]
+	return result
 		
 if __name__ == "__main__":
 	for i in range(30):
-		print(optimize_circuit(1000, 0.001, 7000, 0.0000001, False))
+		print(optimize_circuit(1000, 0.001, 7000, 0.0000001, 3, False))
 	
