@@ -16,6 +16,7 @@ def optimize_circuit(quantum_pairs, iteration_limit, initial_step_size, shot_siz
 	iteration = 0
 	# initial input
 	parameters = np.random.rand(dim) * 2 * np.pi
+	#parameters = np.array([6.15037858, 0.85563339, 3.328638  , 1.5923119 , 3.38266249, 5.14854546, 6.11542253, 2.75850265, 0.17123437, 4.75742343, 6.2216515 , 2.82630081])
 	
 	# evaluate with initial input
 	reference_result = fit(parameters, shot_size)
@@ -45,8 +46,10 @@ def optimize_circuit(quantum_pairs, iteration_limit, initial_step_size, shot_siz
 			if verbose:
 				print(result, "\t", step_size, "\t", reference_result)
 				print(fit(parameters, shot_size))
+				print("inconclusive")
+				print(evaluate(parameters,shot_size)[1])
 		# check termination criteria
-		elif iteration_limit < iteration or step_size < minimum_step or result.max() == 1:
+		if iteration_limit < iteration or step_size < minimum_step or result.max() == 1:
 			#termination condition
 			search = False
 		print(iteration, "/", iteration_limit, end = "\r")
