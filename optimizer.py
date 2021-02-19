@@ -64,9 +64,9 @@ def optimize_circuit(quantum_pairs, iteration_limit, initial_step_size, shot_siz
 def create_variations(parameters, step_size, dim = 3):
 	result = []
 	for i in range(len(parameters)):
-		while parameters[i] > 2*np.pi:
+		while parameters[i] > np.pi:
 			parameters[i] -= 2*np.pi
-		while parameters[i] < 0:
+		while parameters[i] < -np.pi:
 			parameters[i] += 2*np.pi
 	for i in range(dim):
 		displacement = np.zeros(dim) 
