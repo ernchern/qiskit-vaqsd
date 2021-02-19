@@ -49,9 +49,9 @@ def optimize_circuit(quantum_pairs, iteration_limit, initial_step_size, shot_siz
 		else:
 			step_size = (result.max() - reference_result)/step_size
 		
-		if iteration>20:
-			print(step_size, evaluate(parameters,shot_size)[0])
-			print()
+		# if iteration>20:
+			# print(step_size, evaluate(parameters,shot_size)[0])
+			# print()
 		
 		# check termination criteria
 		if iteration_limit < iteration or abs(step_size) < minimum_step or result.max() == 1:
